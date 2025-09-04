@@ -1,0 +1,40 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "title": "Black Coffee Mug",
+      "image": "https://static.vecteezy.com/system/resources/previews/037/045/901/non_2x/ai-generated-black-coffee-mug-isolated-free-png.png",
+      "price": 50
+    },
+    {
+      "id": 2,
+      "title": "Red Coffee Mug",
+      "image": "https://static.vecteezy.com/system/resources/previews/049/662/792/non_2x/a-red-coffee-mug-isolated-on-transparent-background-free-png.png",
+      "price": 30
+    },
+    {
+      "id": 3,
+      "title": "White Coffee Mug",
+      "image": "https://static.vecteezy.com/system/resources/previews/029/283/030/original/coffee-coffee-cup-coffee-cup-coffee-cup-clipart-restaurant-coffee-cup-transparent-background-ai-generative-free-png.png",
+      "price": 20
+    },
+    {
+      "id": 4,
+      "title": "Yellow Coffee Mug",
+      "image": "https://static.vecteezy.com/system/resources/previews/051/803/213/non_2x/realistic-empty-yellow-coffee-mug-on-transparent-background-free-png.png",
+      "price": 25
+    },
+    {
+      "id": 5,
+      "title": "Green Coffee Mug",
+      "image": "https://png.pngtree.com/png-vector/20240201/ourmid/pngtree-green-coffee-cup-png-illustration-png-image_11580402.png",
+      "price": 18
+    },
+    {
+      "id": 6,
+      "title": "Blue Coffee Mug",
+      "image": "https://static.vecteezy.com/system/resources/previews/051/015/492/non_2x/blue-coffee-mug-free-png.png",
+      "price": 12
+    }
+  ]
+}
