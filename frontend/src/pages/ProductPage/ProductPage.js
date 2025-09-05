@@ -18,7 +18,7 @@ const ProductPage = () => {
         const fetchProduct = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/products/${id}`); // Adjust API URL
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/products/${id}`); // Adjust API URL
                 setProduct(response.data);
                 setLoading(false);
             } catch (err) {
