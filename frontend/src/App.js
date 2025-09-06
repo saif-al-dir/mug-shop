@@ -4,6 +4,9 @@ import HomePage from './pages/HomePage/HomePage';
 import ProductPage from './pages/ProductPage/ProductPage';
 import CartPage from './pages/CartPage/CartPage'; // new
 import OrderPage from './pages/OrderPage/OrderPage'; // will create later
+import AdminProductsPage from './pages/admin/AdminProductsPage';
+import AdminProductForm from './pages/admin/AdminProductForm';
+
 
 function App() {
   return (
@@ -13,7 +16,10 @@ function App() {
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/order" element={<OrderPage />} />
-        {/* Other routes like /product/:id, /cart, /order will be added later */}
+        
+        <Route path="/admin/products" element={<AdminProductsPage />} />
+        <Route path="/admin/products/new" element={<AdminProductForm />} />
+        <Route path="/admin/products/:id/edit" element={<AdminProductForm />} />
       </Routes>
     </Router>
   );
