@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { addToCart } from '../../store/cartSlice'; // We'll create this slice next
+import { addToCart } from '../../store/cartSlice';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import styles from './ProductPage.module.css';
 
 const ProductPage = () => {
@@ -18,7 +21,7 @@ const ProductPage = () => {
         const fetchProduct = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/products/${id}`); // Adjust API URL
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/products/${id}`);
                 setProduct(response.data);
                 setLoading(false);
             } catch (err) {
@@ -31,35 +34,42 @@ const ProductPage = () => {
 
     const handleAddToCart = () => {
         dispatch(addToCart({ product, quantity }));
-        navigate('/cart'); // Redirect to cart page after adding
+        navigate('/cart');
     };
 
     if (loading) return <div className={styles.container}>Loading product...</div>;
     if (error) return <div className={styles.container}>Error: {error}</div>;
     if (!product) return <div className={styles.container}>Product not found</div>;
 
+    // Combine main image and additional images into one array
+    const images = [product.image, ...(product.additionalImages || [])];
+
+    // Slider settings (customize as needed)
+    const sliderSettings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        adaptiveHeight: true,
+    };
+
     return (
         <div className={styles.container}>
             <Link to="/" className={styles.backLink}>&larr; Back to products</Link>
             <div className={styles.productWrapper}>
                 <div className={styles.imagesSection}>
-                    <img
-                        src={product.image}
-                        alt={product.title}
-                        className={styles.mainImage}
-                    />
-                    {product.additionalImages && product.additionalImages.length > 0 && (
-                        <div className={styles.additionalImages}>
-                            {product.additionalImages.map((img, idx) => (
+                    <Slider {...sliderSettings}>
+                        {images.map((img, idx) => (
+                            <div key={idx}>
                                 <img
-                                    key={idx}
                                     src={img}
                                     alt={`${product.title} ${idx + 1}`}
-                                    className={styles.thumbnail}
+                                    className={styles.carouselImage}
                                 />
-                            ))}
-                        </div>
-                    )}
+                            </div>
+                        ))}
+                    </Slider>
                 </div>
                 <div className={styles.detailsSection}>
                     <h2 className={styles.title}>{product.title}</h2>

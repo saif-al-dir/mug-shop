@@ -20,6 +20,7 @@
 .productWrapper {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 30px;
   background-color: #fff;
   border-radius: 8px;
@@ -64,6 +65,7 @@
   flex: 1 1 300px;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .title {
@@ -94,7 +96,7 @@
 }
 
 .quantityInput {
-  width: 60px;
+  width: 50px;
   padding: 6px 8px;
   font-size: 1rem;
   border: 1px solid #ccc;
@@ -103,6 +105,7 @@
 
 .addButton {
   background-color: #007bff;
+  width: 150px;
   border: none;
   color: white;
   padding: 12px 0;
@@ -115,4 +118,11 @@
 
 .addButton:hover {
   background-color: #0056b3;
+}
+
+.carouselImage {
+  width: 100%;
+  height: 300px;
+  object-fit: contain;
+  border-radius: 6px;
 }
