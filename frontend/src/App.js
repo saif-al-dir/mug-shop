@@ -14,7 +14,7 @@ function App() {
   return (
     <Router>
       <NavBar />
-      <main style={{ minHeight: '80vh', padding: '20px' }}>
+      <main style={{ minHeight: '100vh', padding: '20px' }}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/product/:id" element={<ProductPage />} />
