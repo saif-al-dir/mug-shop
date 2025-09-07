@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './NavBar.module.css';
 import { useSelector } from 'react-redux';
+import { FaMugHot } from 'react-icons/fa';
 
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -14,6 +15,7 @@ const NavBar = () => {
   return (
     <nav className={styles.navbar}>
       <div className={styles.logo}>
+        <FaMugHot className={styles.logoIcon} />
         <NavLink to="/" className={styles.logoLink} onClick={closeMenu}>
           MugStore
         </NavLink>

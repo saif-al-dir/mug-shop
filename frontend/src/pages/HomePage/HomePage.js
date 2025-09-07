@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchProducts } from '../../store/productsSlice';
 import { Link } from 'react-router-dom';
 import styles from './HomePage.module.css';
+import Hero from '../../components/Hero';
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -26,6 +27,7 @@ const HomePage = () => {
 
   return (
     <div className={styles.container}>
+      <Hero />
       <h1 className={styles.title}>Our Products</h1>
       <div className={styles.productsGrid}>
         {products.map((product) => (
