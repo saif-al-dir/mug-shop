@@ -8,6 +8,8 @@ import AdminProductsPage from './pages/admin/AdminProductsPage';
 import AdminProductForm from './pages/admin/AdminProductForm';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
+import AdminLogin from './pages/admin/AdminLogin';
+import PrivateRoute from './components/PrivateRoute';
 
 
 function App() {
@@ -20,10 +22,24 @@ function App() {
           <Route path="/product/:id" element={<ProductPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/order" element={<OrderPage />} />
+
+          <Route path="/admin/login" element={<AdminLogin />} />
           
-          <Route path="/admin/products" element={<AdminProductsPage />} />
-          <Route path="/admin/products/new" element={<AdminProductForm />} />
-          <Route path="/admin/products/:id/edit" element={<AdminProductForm />} />
+          <Route path="/admin/products" element={
+            <PrivateRoute>
+              <AdminProductsPage />
+            </PrivateRoute>
+          } />
+          <Route path="/admin/products/new" element={
+            <PrivateRoute>
+              <AdminProductForm />
+            </PrivateRoute>
+          } />
+          <Route path="/admin/products/:id/edit" element={
+            <PrivateRoute>
+              <AdminProductForm />
+            </PrivateRoute>
+          } />
         </Routes>
       </main>
       <Footer />
