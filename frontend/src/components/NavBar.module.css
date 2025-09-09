@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #007bff98;
+  background-color: #007bfff6;
   padding: 10px 20px;
   border-radius: 5px;
   color: white;
@@ -21,7 +21,7 @@
 
 .logoIcon {
   font-size: 1.8rem;
-  color: rgba(3, 177, 245, 0.999);
+  color: rgb(237, 240, 242);
 }
 
 .logoLink {

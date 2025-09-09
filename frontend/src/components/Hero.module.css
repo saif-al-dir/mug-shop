@@ -1,5 +1,7 @@
 .hero {
-  background: url('../../public/hero-bg.jpg') center center/cover no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
   height: 400px;
   display: flex;
   align-items: center;
@@ -8,6 +10,7 @@
   text-align: center;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   position: relative;
+  transition: background-image 1s ease-in-out;
 }
 
 .hero::after {

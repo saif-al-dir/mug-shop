@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProducts } from '../../store/productsSlice';
 import { Link } from 'react-router-dom';
@@ -11,13 +11,44 @@ const HomePage = () => {
   const status = useSelector((state) => state.products.status);
   const error = useSelector((state) => state.products.error);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage, setProductsPerPage] = useState(10);
+
+  // Update productsPerPage based on window width
+  useEffect(() => {
+    const updateProductsPerPage = () => {
+      if (window.innerWidth < 925) {
+        setProductsPerPage(6);
+      } else if (window.innerWidth < 1122){
+        setProductsPerPage(8);
+      } else {
+        setProductsPerPage(10);
+      }
+    };
+
+    updateProductsPerPage(); // initial check
+
+    window.addEventListener('resize', updateProductsPerPage);
+    return () => window.removeEventListener('resize', updateProductsPerPage);
+  }, []);
+
   useEffect(() => {
     if (status === 'idle') {
       dispatch(fetchProducts());
     }
   }, [status, dispatch]);
 
-  if (status === 'loading') {
+  // Calculate total pages based on productsPerPage
+  const totalPages = Math.ceil(products.length / productsPerPage);
+
+   // Ensure currentPage is not out of range if productsPerPage changes
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages || 1);
+    }
+  }, [productsPerPage, totalPages, currentPage]);
+
+    if (status === 'loading') {
     return <div className={styles.container}>Loading products...</div>;
   }
 
@@ -25,12 +56,34 @@ const HomePage = () => {
     return <div className={styles.container}>Error: {error}</div>;
   }
 
+  // Get products for current page
+  const startIndex = (currentPage - 1) * productsPerPage;
+  const currentProducts = products.slice(startIndex, startIndex + productsPerPage);
+
+  // Render pagination dots
+  const renderDots = () => {
+    const dots = [];
+    for (let i = 1; i <= totalPages; i++) {
+      dots.push(
+        <button
+          key={i}
+          className={`${styles.dot} ${currentPage === i ? styles.activeDot : ''}`}
+          onClick={() => setCurrentPage(i)}
+          aria-label={`Go to page ${i}`}
+        >
+          ●
+        </button>
+      );
+    }
+    return dots;
+  };
+
   return (
     <div className={styles.container}>
       <Hero />
       <h1 className={styles.title}>Our Products</h1>
       <div className={styles.productsGrid}>
-        {products.map((product) => (
+        {currentProducts.map((product) => (
           <div key={product.id} className={styles.productCard}>
             <img
               src={product.image}
@@ -47,6 +100,7 @@ const HomePage = () => {
           </div>
         ))}
       </div>
+      <div className={styles.pagination}>{renderDots()}</div>
     </div>
   );
 };

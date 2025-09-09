@@ -74,3 +74,30 @@
 .viewButton:hover {
   background-color: #0056b3;
 }
+
+.pagination {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.dot {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: #bbb;
+  cursor: pointer;
+  margin: 0 6px;
+  transition: color 0.3s ease;
+  padding: 0;
+  line-height: 1;
+}
+
+.dot:hover {
+  color: #007bff;
+}
+
+.activeDot {
+  color: #007bff;
+  font-weight: bold;
+  cursor: default;
+}

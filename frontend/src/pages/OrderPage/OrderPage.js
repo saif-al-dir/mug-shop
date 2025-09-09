@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { clearCart } from '../../store/cartSlice';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import styles from './OrderPage.module.css';
 
 const OrderPage = () => {
@@ -18,7 +20,6 @@ const OrderPage = () => {
   });
 
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState(null);
 
   if (cartItems.length === 0) {
     return (
@@ -38,10 +39,8 @@ const OrderPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
-    setError(null);
 
     try {
-      // Prepare order data
       const orderData = {
         customer: formData,
         items: cartItems.map(({ product, quantity, description }) => ({
@@ -56,13 +55,33 @@ const OrderPage = () => {
         createdAt: new Date().toISOString(),
       };
 
-      // Send order to backend
       await axios.post('/api/orders', orderData);
 
       dispatch(clearCart());
-      navigate('/'); // Redirect to home or order confirmation page
+
+      toast.success('Order submitted successfully!', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+
+      // Delay navigation so user can see toast
+      setTimeout(() => {
+        navigate('/');
+      }, 3500);
+
     } catch (err) {
-      setError('Failed to submit order. Please try again.');
+      toast.error('Failed to submit order. Please try again.', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
       setSubmitting(false);
     }
   };
@@ -130,7 +149,6 @@ const OrderPage = () => {
             disabled={submitting}
           />
         </label>
-        {error && <div className={styles.error}>{error}</div>}
         <button type="submit" disabled={submitting} className={styles.submitButton}>
           {submitting ? 'Submitting...' : 'Order'}
         </button>
