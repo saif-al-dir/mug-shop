@@ -1,45 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
 import styles from './AdminProductForm.module.css';
+import axiosInstance from '../../api/axiosInstance';
 
-const API_URL = process.env.REACT_APP_API_URL || '';
-
-const emptyProduct = {
-  title: '',
-  image: '',
-  additionalImages: '',
-  price: '',
-  description: '',
-};
-
-const AdminProductForm = () => {
+export default function AdminProductForm () {
   const { id } = useParams();
   const isEdit = Boolean(id);
-  const [product, setProduct] = useState(emptyProduct);
-  const [loading, setLoading] = useState(isEdit);
+  const [product, setProduct] = useState({ title: '', price: 0 });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (isEdit) {
-      const fetchProduct = async () => {
-        try {
-          setLoading(true);
-          const res = await axios.get(`${API_URL}/api/products/${id}`);
-          // Convert additionalImages array to comma-separated string for input
-          setProduct({
-            ...res.data,
-            additionalImages: res.data.additionalImages?.join(', ') || '',
-            price: res.data.price.toString(),
-          });
-          setLoading(false);
-        } catch (err) {
-          setError('Failed to load product');
-          setLoading(false);
-        }
-      };
-      fetchProduct();
+      axiosInstance.get(`/api/products/${id}`)
+        .then(res => setProduct(res.data))
+        .catch(() => setError('Load failed'));
     }
   }, [id, isEdit]);
 
@@ -50,36 +25,17 @@ const AdminProductForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
-
-    // Validate required fields
-    if (!product.title || !product.image || !product.price) {
-      setError('Title, Image, and Price are required');
-      return;
-    }
-
-    // Prepare data for API
-    const payload = {
-      ...product,
-      price: parseFloat(product.price),
-      additionalImages: product.additionalImages
-        ? product.additionalImages.split(',').map((img) => img.trim())
-        : [],
-    };
-
     try {
       if (isEdit) {
-        await axios.put(`${API_URL}/api/products/${id}`, payload);
+        await axiosInstance.put(`/api/products/${id}`, product);
       } else {
-        await axios.post(`${API_URL}/api/products`, payload);
+        await axiosInstance.post('/api/products', product);
       }
       navigate('/admin/products');
-    } catch (err) {
-      setError('Failed to save product');
+    } catch {
+      setError('Save failed');
     }
   };
-
-  if (loading) return <div className={styles.container}>Loading...</div>;
 
   return (
     <div className={styles.container}>
@@ -149,5 +105,3 @@ const AdminProductForm = () => {
     </div>
   );
 };
-
-export default AdminProductForm;

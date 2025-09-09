@@ -1,43 +1,30 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import styles from './AdminProductsPage.module.css';
+import axiosInstance from '../../api/axiosInstance';
+import LogoutButton from '../../components/LogoutButton';
 
-const API_URL = process.env.REACT_APP_API_URL || '';
-
-const AdminProductsPage = () => {
+export default function AdminProductsPage () {
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const fetchProducts = async () => {
-    try {
-      setLoading(true);
-      const res = await axios.get(`${API_URL}/api/products`);
-      setProducts(res.data);
-      setLoading(false);
-    } catch (err) {
-      setError('Failed to load products');
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchProducts();
+    axiosInstance.get('/api/products')
+      .then(res => setProducts(res.data))
+      .catch(() => setError('Failed to load products'));
   }, []);
 
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this product?')) return;
     try {
-      await axios.delete(`${API_URL}/api/products/${id}`);
+      await axiosInstance.delete(`/api/products/${id}`); // ✅ no API_URL
       setProducts(products.filter((p) => p.id !== id));
     } catch (err) {
       alert('Failed to delete product');
     }
   };
 
-  if (loading) return <div className={styles.container}>Loading products...</div>;
   if (error) return <div className={styles.container}>Error: {error}</div>;
 
   return (
@@ -86,8 +73,7 @@ const AdminProductsPage = () => {
           )}
         </tbody>
       </table>
+      <LogoutButton />
     </div>
   );
 };
-
-export default AdminProductsPage;

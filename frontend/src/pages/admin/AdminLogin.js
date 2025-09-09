@@ -3,9 +3,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styles from './AdminLogin.module.css';
 
-const API_URL = process.env.REACT_APP_API_URL || '';
+const API_URL = process.env.REACT_APP_API_URL;
 
-const AdminLogin = () => {
+export default function AdminLogin () {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
@@ -41,5 +41,3 @@ const AdminLogin = () => {
     </div>
   );
 };
-
-export default AdminLogin;

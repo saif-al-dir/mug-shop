@@ -10,12 +10,12 @@ export class UsersService {
     private usersRepository: Repository<User>,
   ) {}
 
-  async findByUsername(username: string): Promise<User | null> {
+  findByUsername(username: string): Promise<User | null> {
     return this.usersRepository.findOneBy({ username });
   }
 
   async create(user: Partial<User>): Promise<User> {
     const newUser  = this.usersRepository.create(user);
-    return this.usersRepository.save(newUser );
+    return this.usersRepository.save(newUser);
   }
 }
