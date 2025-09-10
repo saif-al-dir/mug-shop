@@ -12,11 +12,9 @@ import { AuthModule } from './auth/auth.module';
   imports: [
     ConfigModule.forRoot({ isGlobal: true}),
 
-
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', '..', 'frontend', 'build'),
     }),
-
 
     TypeOrmModule.forRootAsync({
       useFactory: () => {
@@ -24,23 +22,12 @@ import { AuthModule } from './auth/auth.module';
         if (!dbUrl) {
           throw new Error('DATABASE_URL environment variable is not set');
         }
-        // Parse DATABASE_URL manually or use a library
-        // DATABASE_URL format: mysql://user:password@host:port/dbname
-        const regex = /mysql:\/\/(.*):(.*)@(.*):(\d+)\/(.*)/;
-        const match = dbUrl.match(regex);
-        if (!match) {
-          throw new Error('Invalid DATABASE_URL format');
-        }
-        const [, username, password, host, port, database] = match;
+
         return {
-          type: 'mysql',
-          host,
-          port: Number(port),
-          username,
-          password,
-          database,
-          entities: [__dirname + '/**/*.entity{.ts,.js}'],
-          synchronize: true, // For dev only, auto create tables
+          type: 'postgres',
+          url: dbUrl, //  let TypeORM parse DATABASE_URL for you
+          autoLoadEntities: true,
+          synchronize: true, // ⚠️ dev only, turn off in production
         };
       },
     }),
