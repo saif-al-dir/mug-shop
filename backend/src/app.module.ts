@@ -24,8 +24,10 @@ import { AuthModule } from './auth/auth.module';
         url: process.env.DATABASE_URL,
         autoLoadEntities: true,
         synchronize: true, // ⚠️ dev only
-        ssl: {
-          rejectUnauthorized: false, // Render requires SSL, but self-signed
+        extra: {
+          ssl: {
+            rejectUnauthorized: false, // Render requires SSL, but self-signed
+          },
         },
       }),
     }),
