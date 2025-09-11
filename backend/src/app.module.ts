@@ -24,9 +24,10 @@ import { AuthModule } from './auth/auth.module';
         url: process.env.DATABASE_URL,
         autoLoadEntities: true,
         synchronize: true, // ⚠️ dev only
+        ssl: true, // this tells TypeORM to use SSL
         extra: {
           ssl: {
-            rejectUnauthorized: false, // Render requires SSL, but self-signed
+            rejectUnauthorized: false, // accept Render's self-signed cert
           },
         },
       }),
