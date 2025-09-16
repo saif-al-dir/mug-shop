@@ -20,16 +20,10 @@ import { AuthModule } from './auth/auth.module';
 
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
-        type: 'postgres',
+        type: 'mysql',
         url: process.env.DATABASE_URL,
         autoLoadEntities: true,
         synchronize: true, // ⚠️ dev only
-        // ssl: true, // this tells TypeORM to use SSL
-        // extra: {
-        //   ssl: {
-        //     rejectUnauthorized: false, // accept Render's self-signed cert
-        //   },
-        // },
       }),
     }),
 
